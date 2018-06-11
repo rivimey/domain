@@ -33,13 +33,13 @@ class DomainSettingsForm extends ConfigFormBase {
       '#type' => 'checkbox',
       '#title' => $this->t('Allow non-ASCII characters in domains and aliases'),
       '#default_value' => $config->get('allow_non_ascii'),
-      '#description' => $this->t('Domains may be registered with international character sets. Note that not all DNS server respect non-ascii characters.'),
+      '#description' => $this->t('Domains may be registered with international character sets. Note that some DNS servers do not respect non-ascii characters.'),
     );
     $form['www_prefix'] = array(
       '#type' => 'checkbox',
       '#title' => $this->t('Ignore www prefix when negotiating domains'),
       '#default_value' => $config->get('www_prefix'),
-      '#description' => $this->t('Domain negotiation will ignore any www prefixes for all requests.'),
+      '#description' => $this->t('Domain negotiation will ignore www prefixes for all requests.'),
     );
     // Get the usable tokens for this field.
     foreach (\Drupal::service('domain.token')->getCallbacks() as $key => $callback) {
@@ -50,7 +50,9 @@ class DomainSettingsForm extends ConfigFormBase {
       '#size' => 80,
       '#title' => $this->t('Custom CSS classes'),
       '#default_value' => $config->get('css_classes'),
-      '#description' => $this->t('Enter any CSS classes that should be added to the &lt;body&gt; tag. Available replacement patterns are: ' . implode(', ', $patterns)),
+      '#description' => $this->t(
+        'Enter CSS classes that should be added to the &lt;body&gt; tag. Available replacement patterns are: @patterns',
+        ['@patterns' => implode(', ', $patterns)] ),
     );
     $form['login_paths'] = array(
       '#type' => 'textarea',
